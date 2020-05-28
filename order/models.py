@@ -15,36 +15,27 @@ class Order(models.Model):
         db_table = 'orders'
 
 class PaymentMethod(models.Model):
-    pay_method              = models.CharField(max_length=50)
+    pay_method = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'paymethods'
 
 class OrderStatus(models.Model):
-    name                    = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 'names'
+        db_table = 'orderstatus'
 
 class ShippingInformation(models.Model):
-    delivery_date_info      = models.CharField(max_length=50)
-    shipping_charge         = models.DecimalField(max_digits=10, decimal_places=2)
+    delivery_date_info  = models.CharField(max_length=50)
+    shipping_charge     = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
-        db_table = 'shipping_informations'
+        db_table = 'shipping_information'
 
 class OrderDetail(models.Model):
-    quantity                = models.IntegerField(default=0)
-    order                   = models.ForeignKey('Order', on_delete = models.SET_NULL, null=True)
+    quantity    = models.IntegerField(default=0)
+    order       = models.ForeignKey('Order', on_delete = models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'orderdetails'
-
-
-
-
-
-
-
-
-
