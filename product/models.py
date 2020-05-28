@@ -10,7 +10,6 @@ class Product(models.Model):
     name                    = models.CharField(max_length=50)
     price_krw               = models.DecimalField(max_digits=10, decimal_places=2)
     description             = models.CharField(max_length=100)
-#    shpping_information     = models.ForeignKey('ShippingInformation', on_delete = models.SET_NULL, null=True)
     basic_information       = models.ForeignKey('BasicInformation', on_delete = models.SET_NULL, null=True)
     launch_date             = models.DateField()
     caution                 = models.CharField(max_length=3000)
@@ -21,9 +20,17 @@ class Product(models.Model):
     inner_image_url         = models.URLField(max_length=2000)
     outer_front_image_url   = models.URLField(max_length=2000)
     outer_back_image_url    = models.URLField(max_length=2000)
-    category                = models.ManyToManyField(Category,through='CategoryProduct', related_name='categories')
+    category                = models.ManyToManyField(
+        Category,
+        through='CategoryProduct',
+        related_name='categories'
+    )
     color                   = models.ManyToManyField('Color', through='ColorProduct', related_name='colors')
-    manufacturer            = models.ManyToManyField('Manufacturer', through='ManufacturerProduct',related_name='manufacturers')
+    manufacturer            = models.ManyToManyField(
+        'Manufacturer',
+        through='ManufacturerProduct',
+        related_name='manufacturers'
+    )
 
     class Meta:
         db_table = 'products'
@@ -58,14 +65,14 @@ class BasicInformation(models.Model):
     main_spec           = models.CharField(max_length=100)
 
     class Meta:
-        db_table = 'basic_information'
+        db_table = 'basic_informations'
 
 class Manufacturer(models.Model):
     name            = models.CharField(max_length=100)
     country_name    = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 'manufacturer'
+        db_table = 'manufacturers'
 
 class ManufacturerProduct(models.Model):
     manufacturer    = models.ForeignKey(Manufacturer, on_delete=models.SET_NULL, null=True)
