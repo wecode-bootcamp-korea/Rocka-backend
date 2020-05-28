@@ -19,11 +19,11 @@ class Product(models.Model):
     how_to_use              = models.CharField(max_length=500)
     is_limited              = models.BooleanField(default=False)
     inner_image_url         = models.URLField(max_length=2000)
-    outer_front_image_url   = models.CharField(max_length=2000)
-    outer_back_image_url    = models.CharField(max_length=2000)
-    category                = models.ManyToManyField(Category, through='CategoryProduct')
-    color                   = models.ManyToManyField(Color, through='ColorProduct')
-    manufacturer            = models.ManyToManyField(Manufacturer, through='ManufacturerProduct'
+    outer_front_image_url   = models.URLField(max_length=2000)
+    outer_back_image_url    = models.URLField(max_length=2000)
+    category                = models.ManyToManyField(Category,through='CategoryProduct', related_name='categories')
+    color                   = models.ManyToManyField('Color', through='ColorProduct', related_name='colors')
+    manufacturer            = models.ManyToManyField('Manufacturer', through='ManufacturerProduct',related_name='manufacturers')
 
     class Meta:
         db_table = 'products'

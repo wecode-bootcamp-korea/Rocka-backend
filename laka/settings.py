@@ -1,6 +1,8 @@
 import os
 import my_settings
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+from django.core.exceptions import ImproperlyConfigured
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DEBUG = True
@@ -14,7 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django.contrib.staticfiles',
     'corsheaders',
     'product',
