@@ -43,8 +43,9 @@ class Color(models.Model):
         db_table = 'colors'
 
 class ColorProduct(models.Model):
-    color   = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True)
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    color           = models.ForeignKey(Color, on_delete=models.SET_NULL, null=True)
+    product         = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    stock_quantity  = models.IntegerField(default = 0)
 
     class Meta:
         db_table = 'colors_products'
