@@ -28,5 +28,4 @@ class ShippingAddress(models.Model):
     is_default   = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'shipping_address'
-
+        db_table = 'shipping_addresses'
