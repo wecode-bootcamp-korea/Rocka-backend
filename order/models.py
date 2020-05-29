@@ -18,13 +18,13 @@ class PaymentMethod(models.Model):
     pay_method = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 'paymethods'
+        db_table = 'payment_methods'
 
 class OrderStatus(models.Model):
     name = models.CharField(max_length=50)
 
     class Meta:
-        db_table = 'orderstatus'
+        db_table = 'order_status'
 
 class ShippingInformation(models.Model):
     delivery_date_info  = models.CharField(max_length=50)
@@ -38,4 +38,4 @@ class OrderDetail(models.Model):
     order       = models.ForeignKey('Order', on_delete = models.SET_NULL, null=True)
 
     class Meta:
-        db_table = 'orderdetails'
+        db_table = 'order_details'
