@@ -1,4 +1,5 @@
 from django.db import models
+from order.models import ShippingInformation
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -20,6 +21,7 @@ class Product(models.Model):
     inner_image_url         = models.URLField(max_length=2000)
     outer_front_image_url   = models.URLField(max_length=2000)
     outer_back_image_url    = models.URLField(max_length=2000)
+    shipping_information    = models.ForeignKey(ShippingInformation, on_delete = models.SET_NULL, null=True)
     category                = models.ManyToManyField(
         Category,
         through='CategoryProduct',
