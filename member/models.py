@@ -3,9 +3,10 @@ from django.db import models
 class Member(models.Model):
     nickname        = models.CharField(max_length=50)
     fullname		= models.CharField(max_length=50)
+    email           = models.CharField(max_length=300, default="")
     phone_number	= models.CharField(max_length=50)
     address			= models.CharField(max_length=500)
-    password		= models.CharField(max_length=50)
+   # password		= models.CharField(max_length=300)
     gender			= models.ForeignKey('Gender', on_delete = models.SET_NULL, null=True)
     created_at      = models.DateTimeField(auto_now_add = True)
     updated_at      = models.DateTimeField(auto_now = True)
