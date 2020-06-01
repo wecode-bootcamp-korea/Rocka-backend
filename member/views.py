@@ -20,8 +20,8 @@ class SignUpView(View):
 
             password_encrypt = bcrypt.hashpw(password, bcrypt.gensalt())
             password_encrypt = password_encrypt.decode('utf-8')
- 
-            gender = Gender.objects.get(id=signup_data['gender'])
+
+            gender = Gender.objects.get(name=signup_data['gender'])
             Member(
                 nickname        = signup_data['nickname'],
                 password        = password_encrypt,
@@ -30,7 +30,7 @@ class SignUpView(View):
                 phone_number    = signup_data['phone_number'],
                 gender          = gender,
             ).save()
-            
+
             return HttpResponse(status=200)
 
         except KeyError:
