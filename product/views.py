@@ -52,4 +52,4 @@ class CategoryView(View):
 
             return JsonResponse({'category':category_info,'product':products_info}, status=200)
         except Category.DoesNotExist:
-            return JsonResponse({'message':'INVALID_CATEGHORY'}, status=400)
+            return JsonResponse({'message':'INVALID_CATEGORY'}, status=400)
