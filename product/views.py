@@ -5,7 +5,7 @@ from django.http    import JsonResponse
 from django.shortcuts import render
 from django.views import View
 
-from .models    import Product,Category
+from .models    import Product,Category,Color
 
 class ProductView(View):
     def get(self, request):
@@ -30,9 +30,36 @@ class ProductView(View):
 
 class CategoryView(View):
     def get(self, request):
+        all_category = Category.objects.all().prefetch_related('product_set')
         category_info = [{
             'category_id'   : category.id,
             'name'          : category.name,
             'count'         : len(category.product_set.all())
-        }for category in Category.objects.all()]
+        } for category in all_category]
         return JsonResponse({'data':category_info}, status=200)
+
+class DetailView(View):
+    def get(self, request,product_id):
+        product = Product.objects.get(id=product_id)
+        basic_info = product.basic_information
+        color_info = product.color.all()
+        product_info = {
+            'id'                : product_id,
+            'name'              : product.name,
+            'description'       : product.description,
+            'price_krw'         : product.price_krw,
+            'return_policy'     : basic_info.return_policy,
+            'customer_service'  : basic_info.customer_service,
+            'quality_assurance' : basic_info.quality_assurance,
+            'main_spec'         : basic_info.main_spec,
+            'caution'           : product.caution,
+            'volume_g'          : product.volume_g,
+            'mfds'              : product.mfds,
+            'how_to_use'        : product.how_to_use,
+            'inner_image_url'   : product.inner_image_url,
+            'color'             : [{
+                'name'      : color.name,
+                'image_url' : color.image_url
+            } for color in color_info]
+        }
+        return JsonResponse({'data':product_info}, status=200)
