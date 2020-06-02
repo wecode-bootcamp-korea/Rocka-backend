@@ -31,7 +31,8 @@ class ProductView(View):
 class CategoryView(View):
     def get(self, request):
         category_info = [{
-            'name'  : category.name,
-            'count' : len(category.product_set.all())
+            'category_id'   : category.id,
+            'name'          : category.name,
+            'count'         : len(category.product_set.all())
         }for category in Category.objects.all()]
         return JsonResponse({'data':category_info}, status=200)
