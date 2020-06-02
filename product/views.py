@@ -41,7 +41,11 @@ class CategoryView(View):
 
 class DetailView(View):
     def get(self, request,product_id):
-        product         = Product.objects.get(id=product_id)
+        product         = Product.objects.get(id=product_id).selected_related(
+            'basic_information',
+            'color',
+            'manufacturer'
+        )
         basic_info      = product.basic_information
         color_info      = product.color.all()
         manufac_info    = product.manufacturer.all()
