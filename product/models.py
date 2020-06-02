@@ -25,13 +25,11 @@ class Product(models.Model):
     category                = models.ManyToManyField(
         Category,
         through='CategoryProduct',
-        related_name='categories'
     )
     color                   = models.ManyToManyField('Color', through='ColorProduct', related_name='colors')
     manufacturer            = models.ManyToManyField(
         'Manufacturer',
         through='ManufacturerProduct',
-        related_name='manufacturers'
     )
 
     class Meta:
