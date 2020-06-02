@@ -21,18 +21,18 @@ class SignUpView(View):
             password_encrypt = bcrypt.hashpw(password, bcrypt.gensalt())
             password_encrypt = password_encrypt.decode('utf-8')
 
-            gender = Gender.objects.get(name=signup_data['gender'])
+            gender = Gender.objects.get(id=signup_data['gender']).id
             Member(
                 nickname        = signup_data['nickname'],
                 password        = password_encrypt,
                 fullname        = signup_data['fullname'],
                 email           = signup_data['email'],
+                address         = signup_data['address'],
                 phone_number    = signup_data['phone_number'],
-                gender          = gender,
+                gender_id       = gender,
             ).save()
 
             return HttpResponse(status=200)
-
         except KeyError:
             return JsonResponse({"message":"INVALID_KEYS"}, status=400)
 
