@@ -9,7 +9,8 @@ from .models    import Product,Category,Color
 
 class ProductView(View):
     def get(self, request):
-        all_prod = Product.objects.all()
+        all_prod = Product.objects.all().prefetch_related('categoryproduct_set',
+                                                          'colorproduct_set')
         products=[{
             'id'                    : prod.id,
             'name'                  : prod.name,
@@ -40,16 +41,18 @@ class CategoryView(View):
 
 class DetailView(View):
     def get(self, request,product_id):
-        product = Product.objects.get(id=product_id)
-        basic_info = product.basic_information
-        color_info = product.color.all()
-        product_info = {
+        product         = Product.objects.get(id=product_id)
+        basic_info      = product.basic_information
+        color_info      = product.color.all()
+        manufac_info    = product.manufacturer.all()
+        product_info    = {
             'id'                : product_id,
             'name'              : product.name,
             'description'       : product.description,
             'price_krw'         : product.price_krw,
             'return_policy'     : basic_info.return_policy,
             'customer_service'  : basic_info.customer_service,
+            'expiration'        : basic_info.expiration,
             'quality_assurance' : basic_info.quality_assurance,
             'main_spec'         : basic_info.main_spec,
             'caution'           : product.caution,
@@ -57,6 +60,10 @@ class DetailView(View):
             'mfds'              : product.mfds,
             'how_to_use'        : product.how_to_use,
             'inner_image_url'   : product.inner_image_url,
+            'manufacturer'      : [{
+                'name'          : manufac.name,
+                'country_name'  : manufac.country_name
+            } for manufac in manufac_info],
             'color'             : [{
                 'name'      : color.name,
                 'image_url' : color.image_url
