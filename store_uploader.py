@@ -8,7 +8,7 @@ django.setup()
 
 from store.models import Store
 
-CSV_PATH_PRODUCTS = '/Users/youngbinha/Desktop/output.csv'
+CSV_PATH_PRODUCTS = '/Users/teddyjung/Desktop/output.csv'
 
 with open(CSV_PATH_PRODUCTS) as in_file:
     data_reader = csv.reader(in_file)
