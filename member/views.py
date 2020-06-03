@@ -21,14 +21,14 @@ class SignUpView(View):
             password_encrypt = bcrypt.hashpw(password, bcrypt.gensalt())
             password_encrypt = password_encrypt.decode('utf-8')
 
-            gender = Gender.objects.get(name=signup_data['gender']).id
+            gender = Gender.objects.get(id=signup_data['gender']).id
             Member(
                 nickname        = signup_data['nickname'],
                 password        = password_encrypt,
                 fullname        = signup_data['fullname'],
                 email           = signup_data['email'],
                 phone_number    = signup_data['phone_number'],
-                gender_id          = gender,
+                gender_id       = gender,
             ).save()
 
             return HttpResponse(status=200)
