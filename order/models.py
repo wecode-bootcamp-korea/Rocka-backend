@@ -1,5 +1,6 @@
 from django.db import models
 from member.models import Member, ShippingAddress
+from typing import TYPE_CHECKING
 
 
 class Order(models.Model):
@@ -9,7 +10,7 @@ class Order(models.Model):
     shipping_address        = models.ForeignKey(ShippingAddress, on_delete = models.SET_NULL, null=True)
     member                  = models.ForeignKey(Member, on_delete = models.SET_NULL, null=True)
     shipping_information    = models.ForeignKey('ShippingInformation', on_delete =models.SET_NULL, null=True)
-    total_amount            = models.DecimalField(max_digits=10, decimal_places=2)
+    total_amount            = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     class Meta:
         db_table = 'orders'
@@ -34,8 +35,11 @@ class ShippingInformation(models.Model):
         db_table = 'shipping_information'
 
 class OrderDetail(models.Model):
+
     quantity    = models.IntegerField(default=0)
     order       = models.ForeignKey('Order', on_delete = models.SET_NULL, null=True)
+    color       = models.ForeignKey('product.Color', on_delete = models.SET_NULL, null=True)
+    product     = models.ForeignKey('product.Product', on_delete = models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'order_details'
