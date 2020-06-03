@@ -8,6 +8,27 @@ from django.http import HttpResponse, JsonResponse
 from .models import Member, Gender, ShippingAddress
 from laka.settings import SECRET_KEY
 
+class LoginConfirm:
+	def __init__(self,original_function):
+		self.original_function = original_function
+
+	def __call__(self, request, *args, **kwargs):
+		token = request.headers.get("Authorization", None)
+		try:
+			if token:
+				token_payload	= jwt.decode(token, SECRET_KEY, algorithms="HS256")
+				user			= Member.objects.get(nickname=token_payload['nickname'])
+				request.user	= user
+				return self.original_function(self, request, *args, **kwargs)
+
+			return JsonResponse({'message':'INVALID_USER'}, status=401)
+
+		except jwt.DecodeError:
+			return JsonResponse({'message':'INVALID_TOKEN'}, status=401)
+
+		except Account.DoesNotExist:
+			return JsonResponse({'message':'INVALID_USER'}, status=401)
+
 class SignUpView(View):
     def post(self, request):
         signup_data = json.loads(request.body)
