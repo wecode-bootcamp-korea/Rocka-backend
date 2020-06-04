@@ -13,10 +13,12 @@ class ProductView(View):
                                                           'colorproduct_set')
         query       = request.GET.get('category',all_prod)
         category_all= Category.objects.all().prefetch_related('product_set')
-        if query != all_prod:
+        if query == all_prod:
+            prod_all = all_prod
+        else:
             prod_all = category_all.get(name=query).product_set.all().prefetch_related('colorproduct_set')
 
-            products=[{
+        products=[{
             'id'                    : prod.id,
             'name'                  : prod.name,
             'price_krw'             : prod.price_krw,
@@ -53,7 +55,7 @@ class DetailView(View):
         basic_info      = product.basic_information
         color_info      = product.color.all()
         manufac_info    = product.manufacturer.all()
-        order_quantity  = 1
+        order_quantity  = 0
         product_info    = {
             'id'                : product_id,
             'name'              : product.name,
