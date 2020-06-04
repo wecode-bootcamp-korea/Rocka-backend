@@ -9,14 +9,13 @@ from .models    import Product,Category,Color
 
 class ProductView(View):
     def get(self, request):
-        all_prod    = Product.objects.all().prefetch_related('categoryproduct_set',
-                                                          'colorproduct_set')
-        query       = request.GET.get('category',all_prod)
-        category_all= Category.objects.all().prefetch_related('product_set')
-        if query != all_prod:
-            prod_all = category_all.get(name=query).product_set.all().prefetch_related('colorproduct_set')
+        query       = request.GET.get('category',None)
+        filtering_data   = {}
+        if query:
+            filtering_data['category__name']= query
+        all_prod        = Product.objects.filter(**filtering_data).prefetch_related('categoryproduct_set','colorproduct_set')
 
-            products=[{
+        products=[{
             'id'                    : prod.id,
             'name'                  : prod.name,
             'price_krw'             : prod.price_krw,
@@ -31,9 +30,12 @@ class ProductView(View):
             'outer_front_image_url' : prod.outer_front_image_url,
             'outer_back_image_url'  : prod.outer_back_image_url,
             'launchdate'            : prod.launch_date
-        } for prod in prod_all]
+            } for prod in all_prod]
 
-        return JsonResponse({'data':products}, status=200)
+        if len(products)>0:
+            return JsonResponse({'data':products}, status=200)
+        else:
+            return JsonResponse({'message':'NO_PRODUCT'}, status=400)
 
 class CategoryView(View):
     def get(self, request):
@@ -47,36 +49,38 @@ class CategoryView(View):
 
 class DetailView(View):
     def get(self, request,product_id):
-        product         = Product.objects.select_related('basic_information').prefetch_related(
-            'color','manufacturer'
-        ).get(id=product_id)
-        basic_info      = product.basic_information
-        color_info      = product.color.all()
-        manufac_info    = product.manufacturer.all()
-        order_quantity  = 1
-        product_info    = {
-            'id'                : product_id,
-            'name'              : product.name,
-            'description'       : product.description,
-            'price_krw'         : product.price_krw,
-            'return_policy'     : basic_info.return_policy,
-            'customer_service'  : basic_info.customer_service,
-            'expiration'        : basic_info.expiration,
-            'quality_assurance' : basic_info.quality_assurance,
-            'main_spec'         : basic_info.main_spec,
-            'caution'           : product.caution,
-            'volume_g'          : product.volume_g,
-            'mfds'              : product.mfds,
-            'how_to_use'        : product.how_to_use,
-            'inner_image_url'   : product.inner_image_url,
-            'order_quantity'    : order_quantity,
-            'manufacturer'      : [{
-                'name'          : manufac.name,
-                'country_name'  : manufac.country_name
-            } for manufac in manufac_info],
-            'color'             : [{
-                'name'      : color.name,
-                'image_url' : color.image_url
-            } for color in color_info]
-        }
-        return JsonResponse({'data':product_info}, status=200)
+        try:
+            product         = Product.objects.select_related('basic_information').prefetch_related(
+                'color','manufacturer'
+            ).get(id=product_id)
+            basic_info      = product.basic_information
+            color_info      = product.color.all()
+            manufac_info    = product.manufacturer.all()
+            product_info    = {
+                'id'                : product_id,
+                'name'              : product.name,
+                'description'       : product.description,
+                'price_krw'         : product.price_krw,
+                'return_policy'     : basic_info.return_policy,
+                'customer_service'  : basic_info.customer_service,
+                'expiration'        : basic_info.expiration,
+                'quality_assurance' : basic_info.quality_assurance,
+                'main_spec'         : basic_info.main_spec,
+                'caution'           : product.caution,
+                'volume_g'          : product.volume_g,
+                'mfds'              : product.mfds,
+                'how_to_use'        : product.how_to_use,
+                'inner_image_url'   : product.inner_image_url,
+                'manufacturer'      : [{
+                    'name'          : manufac.name,
+                    'country_name'  : manufac.country_name
+                } for manufac in manufac_info],
+                'color'                 : [{
+                    'name'              : color.name,
+                    'order_quantity'    : 1,
+                    'image_url'         : color.image_url
+                } for color in color_info]
+            }
+            return JsonResponse({'data':product_info}, status=200)
+        except Product.DoesNotExist:
+            return JsonResponse({'message':'INVALID_CATEGORY'}, status=400)

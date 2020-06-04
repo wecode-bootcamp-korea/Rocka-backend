@@ -1,7 +1,7 @@
 from django.db import models
 
 class Member(models.Model):
-    nickname        = models.CharField(max_length=50, unique=True )
+    nickname        = models.CharField(max_length=50)
     fullname        = models.CharField(max_length=50)
     email           = models.CharField(max_length=300, default="")
     phone_number    = models.CharField(max_length=50)
