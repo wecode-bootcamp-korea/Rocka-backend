@@ -26,7 +26,7 @@ class LoginConfirm:
 		except jwt.DecodeError:
 			return JsonResponse({'message':'INVALID_TOKEN'}, status=401)
 
-		except Account.DoesNotExist:
+		except Member.DoesNotExist:
 			return JsonResponse({'message':'INVALID_USER'}, status=401)
 
 class SignUpView(View):
