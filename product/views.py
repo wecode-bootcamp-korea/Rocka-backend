@@ -13,7 +13,7 @@ class ProductView(View):
         filtering_data   = {}
         if query:
             filtering_data['category__name']= query
-        all_prod        = Product.objects.all().filter(**filtering_data).prefetch_related('categoryproduct_set','colorproduct_set')
+        all_prod        = Product.objects.filter(**filtering_data).prefetch_related('categoryproduct_set','colorproduct_set')
 
         products=[{
             'id'                    : prod.id,
