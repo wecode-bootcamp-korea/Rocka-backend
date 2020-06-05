@@ -12,10 +12,10 @@ class StoreView(View):
         all_store = Store.objects.all()
         stores=[{
             'name'          : store.name,
-            'branch'          : store.branch,
-            'phone_number'           : store.phone_number,
+            'branch'        : store.branch,
+            'phone_number'  : store.phone_number,
             'address'       : store.address,
-            'store_time'       : store.store_time,
-            'map_url'           : store.map_url
+            'store_time'    : store.store_time,
+            'map_url'       : store.map_url
         } for store in all_store]
         return JsonResponse({'data':stores}, status=200)
