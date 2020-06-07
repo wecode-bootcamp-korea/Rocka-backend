@@ -19,10 +19,8 @@
 - 장바구니 기능 구현(비회원일시 휘발성, 회원일 경우 비휘발성 장바구니)
 - 런칭데이를 기준으로 신상품 분류
 - 판매량 기준으로 BEST ITEM 추천 기능
+
 ## DATABASE Modeling
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/wecode-bootcamp-korea/Rocka-backend/blob/master/LAKA_ERD.png"><img src="https://github.com/wecode-bootcamp-korea/Rocka-backend/blob/master/LAKA_ERD.png" alt="Database ERD" style="max-width:100%;"></a>
 
-
-## 데모 영상
-
-[![Watch the video](https://img.youtube.com/vi/JQ6JGS6QFsQ/0.jpg)](https://youtu.be/JQ6JGS6QFsQ)
 
