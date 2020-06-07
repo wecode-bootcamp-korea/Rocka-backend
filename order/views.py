@@ -8,10 +8,20 @@ from datetime import datetime
 
 from member.models import Member, ShippingAddress
 from member.views import LoginConfirm
-from product.models import *
 from laka.settings import SECRET_KEY
-from order.models import Order, PaymentMethod, OrderStatus, ShippingInformation, OrderDetail
 
+from order.models import (
+    Order,
+    PaymentMethod,
+    OrderStatus,
+    ShippingInformation,
+    OrderDetail
+)
+from product.models import (
+    Category,
+    Product,
+    Color,
+)
 class CartView(View):
     @LoginConfirm
     def post(self, request):
@@ -38,7 +48,7 @@ class CartView(View):
 
             OrderDetail.objects.create(
                     product_id      = Product.objects.get(id=data['id']).id,
-                    quantity     = ordered_quantity,
+                    quantity        = ordered_quantity,
                     color_id        = Color.objects.get(name=ordered_color_name).id,
                     order_id        = order.id
                 )
