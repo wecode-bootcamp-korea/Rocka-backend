@@ -20,4 +20,4 @@ EXPOSE 8000
 
 #CMD ["python", "./setup.py", "runserver", "--host=0.0.0.0", "-p 8080"]
 #gunicorn을 사용해서 서버를 실행
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "patagonia.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "laka.wsgi:application"]
