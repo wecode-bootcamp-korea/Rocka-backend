@@ -1,6 +1,6 @@
 # Project: laka.co.kr Clone
 
-- This project has been done by wecode(coding bootcamp) first month students.
+- This project had been done by wecode(coding bootcamp) first month students.
 - Developed by a team of 4 developers (2 Front-End, 2 Back-End)
 
 ## Our goals
