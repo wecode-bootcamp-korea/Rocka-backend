@@ -9,7 +9,7 @@
 - All the feature implementation.
 
 ## Technologies
-- Front-End: **ReactJS**, **Sass**([Front-End Repository 주소](https://github.com/wecode-bootcamp-korea/Rocka-frontend))
+- Front-End: **ReactJS**, **Sass**([Front-End Repository](https://github.com/wecode-bootcamp-korea/Rocka-frontend))
 - Back-End: **Django**, **MySQL** 
 - Deployment: **AWS**(EC2, RDS)
 
