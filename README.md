@@ -5,7 +5,7 @@
 
 ## Our goals
 
-- Making incomparable clone
+- Making indistinguishable clone
 - All the feature implementation.
 
 ## Technologies
@@ -20,6 +20,7 @@
 - Sign-up, Sign-in(Using JWT, Bcrypt module for encryption)
 - Cart service
 - Product filter
+- Crawled all data
 
 
 
