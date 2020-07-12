@@ -19,8 +19,8 @@
 ## Feature
 - Sign-up, Sign-in(Using JWT, Bcrypt module for encryption)
 - Cart service
-- Product filter
-- Crawled all data
+- Crawled all data (Using Selenium, BeautifulSoup)
+- Product filter(Use querystring)
 
 
 
