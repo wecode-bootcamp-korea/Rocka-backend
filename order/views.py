@@ -29,32 +29,36 @@ class CartView(View):
             data                    = json.loads(request.body)
             nickname                = request.user
             now                     = datetime.now()
-            ordernumber             = str(nickname.id) + "now.year" + "now.month" + "now.day" + "now.hour" + "now.minute"
-            ordered_color_name      = data['name']
-            ordered_quantity        = data['order_quantity']
-
+            ordernumber             = f"{nickname.id}{now.year}{now.month}{now.day}{now.hour}{now.minute}"
             if Order.objects.filter(member_id=nickname.id, order_status=1).exists():
                 order = Order.objects.filter(order_status=1).last()
-
-            order = Order.objects.create(
+            else:
+                order = Order.objects.create(
                     order_num       = ordernumber,
                     order_status    = OrderStatus.objects.get(id=1),
                     member          = nickname
                 )
-
-            prod = OrderDetail.objects.filter(order_id=order.id)
-            if prod.exists():
-                prod.filter(color__name=data['name']).update(quantity=ordered_quantity)
-
-            OrderDetail.objects.create(
-                    product_id      = Product.objects.get(id=data['id']).id,
-                    quantity        = ordered_quantity,
-                    color_id        = Color.objects.get(name=ordered_color_name).id,
-                    order_id        = order.id
-                )
+            for elem in data:
+                prod = OrderDetail.objects.filter(order_id=order.id)
+                ordered_color_name      = elem['name']
+                ordered_quantity        = int(elem['order_quantity'])
+                print(ordered_color_name)
+                if not Color.objects.filter(name=ordered_color_name).exists():
+                    raise ValueError
+                if prod.exists():
+                    prod.filter(color__name=elem['name']).update(quantity=ordered_quantity)
+                else:
+                    OrderDetail.objects.create(
+                            product_id      = Product.objects.get(id=elem['id']).id,
+                            quantity        = ordered_quantity,
+                            color_id        = Color.objects.get(name=ordered_color_name).id,
+                            order_id        = order.id
+                        )
             return HttpResponse(status=200)
         except KeyError:
             return HttpResponse(status=400)
+        except Product.DoesNotExist:
+            return JsonResponse({"message":"INVAILD_VALUE"}, status=404)
 
     @LoginConfirm
     def get(self, request):
