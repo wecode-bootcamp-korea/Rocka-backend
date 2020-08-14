@@ -42,18 +42,18 @@ class CartView(View):
                 prod = OrderDetail.objects.filter(order_id=order.id)
                 ordered_color_name      = elem['name']
                 ordered_quantity        = int(elem['order_quantity'])
-                print(ordered_color_name)
                 if not Color.objects.filter(name=ordered_color_name).exists():
-                    raise ValueError
+                    return JsonResponse({"message":"CHECK_COLOR_NAME"}, status=404)
                 if prod.exists():
-                    prod.filter(color__name=elem['name']).update(quantity=ordered_quantity)
-                else:
-                    OrderDetail.objects.create(
-                            product_id      = Product.objects.get(id=elem['id']).id,
-                            quantity        = ordered_quantity,
-                            color_id        = Color.objects.get(name=ordered_color_name).id,
-                            order_id        = order.id
-                        )
+                    if prod.filter(color__name=elem['name']):
+                        prod.filter(color__name=elem['name']).update(quantity=ordered_quantity)
+                    else:
+                        OrderDetail.objects.create(
+                                product_id      = Product.objects.get(id=elem['id']).id,
+                                quantity        = ordered_quantity,
+                                color_id        = Color.objects.get(name=ordered_color_name).id,
+                                order_id        = order.id
+                            )
             return HttpResponse(status=200)
         except KeyError:
             return HttpResponse(status=400)
