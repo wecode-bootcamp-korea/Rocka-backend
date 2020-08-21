@@ -64,7 +64,7 @@ class CartView(View):
     def get(self, request):
         try:
             user = request.user
-            cart_items = Order.objects.get(member=user, order_status=1).orderdetail_set.all().select_related('product','color')
+            cart_items = Order.objects.filter(member=user, order_status=1).last().orderdetail_set.all().select_related('product','color')
 
             mycart=[{
                 'name'                  : item.product.name,
