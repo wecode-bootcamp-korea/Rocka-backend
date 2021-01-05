@@ -22,6 +22,7 @@
 - Crawled all data (Using Selenium, BeautifulSoup)
 - Product filter(Use querystring)
 
+https://www.youtube.com/watch?v=T-Cq8Tb18IM&feature=youtu.be
 
 
 
